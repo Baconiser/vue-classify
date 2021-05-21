@@ -150,12 +150,17 @@ function processComputeds(computeds: CollectComputeds) {
 
 export function genImports(path, collect, state: CollectState) {
   const nodeLists = path.node.body
+
+  /*const importD = t.importDeclaration(propertyDecoratorSpecifiers, t.stringLiteral('vue-property-decorator'))
   const importVue = t.importDeclaration([t.importDefaultSpecifier(t.identifier('Vue'))], t.stringLiteral('vue'))
   const importVueClassComponent = t.importDeclaration(
     [t.importDefaultSpecifier(t.identifier('Component'))],
     t.stringLiteral('vue-class-component')
-  )
+  )*/
   const propertyDecoratorSpecifiers = []
+  propertyDecoratorSpecifiers.push(t.importSpecifier(t.identifier('Vue'), t.identifier('Vue')))
+  propertyDecoratorSpecifiers.push(t.importSpecifier(t.identifier('Component'), t.identifier('Component')))
+
   if (Object.keys(state.props).length) {
     propertyDecoratorSpecifiers.push(t.importSpecifier(t.identifier('Prop'), t.identifier('Prop')))
   }
@@ -167,8 +172,8 @@ export function genImports(path, collect, state: CollectState) {
     collect.imports.push(importD)
   }
 
-  collect.imports.push(importVueClassComponent)
-  collect.imports.push(importVue)
+  /*collect.imports.push(importVueClassComponent)
+  collect.imports.push(importVue)*/
   collect.imports.forEach(node => nodeLists.unshift(node))
 }
 
